@@ -1,12 +1,12 @@
+if (process.env.NODE_ENV != "development") {
+  require("dotenv").config();
+}
+
 const Listing = require("../models/listing");
 const User = require("../models/user");
-const cloudinary = require("cloudinary").v2;
-const ExpressError = require("../utils/express-error");
 
 // geocoding
-const mbxGeoCoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const mapToken = process.env.MAPBOX_DEFULT_TOKEN;
-const geocodingClient = mbxGeoCoding({ accessToken: mapToken });
+const { forwardGeocode } = require("../utils/functions");
 
 // post review
 
@@ -28,13 +28,7 @@ const handleDeleteListing = async (req, res) => {
 
 const handleCreateListing = async (req, res) => {
   const { title, description, location, country, price } = req.body;
-  const response = await geocodingClient
-    .forwardGeocode({
-      query: `${location} ${country}`,
-      limit: 1,
-    })
-    .send();
-  const geometry = response.body.features[0].geometry;
+  const geometry = await forwardGeocode(location + " " + country);
   const { filename, path } = req.file;
   let user = req.user;
   const newListing = new Listing({
@@ -70,13 +64,7 @@ const handleUpdateLising = async (req, res) => {
   if (oldListing.location.value !== location) {
     oldListing.location.value = location;
     oldListing.location.country = country;
-    const response = await geocodingClient
-      .forwardGeocode({
-        query: `${location} ${country}`,
-        limit: 1,
-      })
-      .send();
-    const geometry = response.body.features[0].geometry;
+    const geometry = await forwardGeocode(location + " " + country);
     oldListing.location.geometry = geometry;
   }
   if (filename && path) {
@@ -146,7 +134,7 @@ const handleShowOneListing = async (req, res) => {
   }
   return res.status(200).send({
     listing,
-    accessToken: process.env.MAPBOX_DEFULT_TOKEN,
+    accessToken: process.env.MAPBOX_DEFAULT_TOKEN,
     listingCreatedBy,
   });
 };
