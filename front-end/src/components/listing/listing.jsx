@@ -34,7 +34,7 @@ const Listing = () => {
     axios
       .get(`/api/listings/${id}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.listing);
         setListing(res.data.listing);
         setAccessToken(res.data.accessToken);
         setLoading(false);
