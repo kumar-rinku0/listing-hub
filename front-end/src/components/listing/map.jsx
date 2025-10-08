@@ -1,15 +1,14 @@
-import { useRef, useEffect } from 'react'
-import mapboxgl from 'mapbox-gl'
-import "./listing.css"
+import { useRef, useEffect } from "react";
+import mapboxgl from "mapbox-gl";
+import "./listing.css";
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const Map = ({ accessToken, coordinates, location }) => {
-  const mapRef = useRef()
-  const mapContainerRef = useRef()
+  const mapRef = useRef();
+  const mapContainerRef = useRef();
 
   useEffect(() => {
-    console.log(accessToken);
     mapboxgl.accessToken = accessToken;
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -19,7 +18,7 @@ const Map = ({ accessToken, coordinates, location }) => {
       attributionControl: false,
     });
 
-    const marker1 = new mapboxgl.Marker({ color: 'red' })
+    const marker1 = new mapboxgl.Marker({ color: "red" })
       .setLngLat(coordinates)
       .addTo(mapRef.current);
 
@@ -47,28 +46,18 @@ const Map = ({ accessToken, coordinates, location }) => {
     //   .addTo(mapRef.current);
 
     return () => {
-      mapRef.current.remove()
-    }
-  }, [])
+      mapRef.current.remove();
+    };
+  }, []);
 
-
-  return (
-    <div id='map-container' ref={mapContainerRef} />
-  )
-}
+  return <div id="map-container" ref={mapContainerRef} />;
+};
 
 export default Map;
-
-
-
 
 // import './App.css'
 
 // function App() {
-
-
-
-
 
 //   return (
 //     <>
