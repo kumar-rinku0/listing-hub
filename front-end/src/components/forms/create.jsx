@@ -1,15 +1,14 @@
 import "./create.css";
 // import "./image-preview.js";
-import { useEffect, useState } from 'react'
-import { useAuth } from '../../AuthProvider';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router';
+import { useEffect, useState } from "react";
+import { useAuth } from "../../AuthProvider";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router";
 import { useMsg } from "../alert/alert-provider";
 import Image from "../explore/image";
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 const Create = () => {
   const { isAuthenticated, user, signIn, signOut } = useAuth();
@@ -24,12 +23,12 @@ const Create = () => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    if (event.target.name === 'image') {
+    if (event.target.name === "image") {
       setSelectedImg(event.target.files[0]);
       console.log(event.target.files[0]);
     }
-    setInputs(values => ({ ...values, [name]: value }))
-  }
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
   const handleSubmit = (e) => {
     setDisableBtn(true);
     e.preventDefault();
@@ -37,53 +36,68 @@ const Create = () => {
     const listing = Object.fromEntries(formData);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
-      }
-    }
-    axios.post(id && img ? `/api/listings/${id}/edit` : "api/listings/create", listing, config).then((res) => {
-      console.log(res.data);
-      const { msg, type } = res.data;
-      setAlert([msg, type, true]);
-      id && img ? navigate(`/listing/${id}`) : navigate("/");
-      setDisableBtn(false);
-    }).catch((err) => {
-      console.log(err.response.data);
-      const { msg, type } = err.response.data;
-      setAlert([msg, type, true]);
-      setDisableBtn(false);
-    })
-  }
+        "content-type": "multipart/form-data",
+      },
+    };
+    axios
+      .post(
+        id && img ? `/api/listings/${id}/edit` : "api/listings/create",
+        listing,
+        config
+      )
+      .then((res) => {
+        console.log(res.data);
+        const { msg, type } = res.data;
+        setAlert([msg, type, true]);
+        id && img ? navigate(`/listing/${id}`) : navigate("/");
+        setDisableBtn(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        const { msg, type } = err.response.data;
+        setAlert([msg, type, true]);
+        setDisableBtn(false);
+      });
+  };
   useEffect(() => {
     if (id) {
-      axios.get(`/api/listings/${id}/edit`).then((res) => {
-        const listing = res.data.listing;
-        setImg(listing.image);
-        setInputs(values => ({ values, title: listing.title, price: listing.price, description: listing.description, location: listing.location.value, country: listing.location.country }))
-      }).catch((err) => {
-        console.error(err.response.data);
-      })
+      axios
+        .get(`/api/listings/${id}/edit`)
+        .then((res) => {
+          const listing = res.data.listing;
+          setImg(listing.image);
+          setInputs((values) => ({
+            values,
+            title: listing.title,
+            price: listing.price,
+            description: listing.description,
+            location: listing.location.value,
+            country: listing.location.country,
+          }));
+        })
+        .catch((err) => {
+          console.error(err.response.data);
+        });
     }
-  }, [id])
+  }, [id]);
   if (!isAuthenticated) {
     return (
-      <div className='create'>
-        <div>
-          Not Authorized!
-        </div>
+      <div className="create">
+        <div>Not Authorized!</div>
       </div>
-    )
+    );
   }
   return (
-    <div className='create'>
+    <div className="create">
       <div className="create-page">
-        <div className='create-form-container'>
-          <form onSubmit={handleSubmit} className='create-form'>
+        <div className="create-form-container">
+          <form onSubmit={handleSubmit} className="create-form">
             <TextField
               variant="standard"
               type="text"
               name="title"
               value={inputs.title || ""}
-              label='Title'
+              label="Title"
               onChange={handleChange}
               required
             />
@@ -93,7 +107,7 @@ const Create = () => {
               type="text"
               name="description"
               value={inputs.description || ""}
-              label='description'
+              label="description"
               onChange={handleChange}
               required
             />
@@ -103,14 +117,19 @@ const Create = () => {
               type="number"
               name="price"
               value={inputs.price || ""}
-              label='price'
+              label="price"
               onChange={handleChange}
               required
             />
             {id && img ? (
               <>
                 <div>
-                  <Image image={img} imgHeight={200} imgWidth={300} imgObjFit="cover" />
+                  <Image
+                    image={img}
+                    imgHeight={200}
+                    imgWidth={300}
+                    imgObjFit="cover"
+                  />
                 </div>
                 <div className="custom__image-container">
                   {/* <label htmlFor="image">upload image</label> */}
@@ -125,7 +144,10 @@ const Create = () => {
                 </div>
                 {selectedImg && (
                   <div className="preview">
-                    <img src={URL.createObjectURL(selectedImg)} alt="selectedImg" />
+                    <img
+                      src={URL.createObjectURL(selectedImg)}
+                      alt="selectedImg"
+                    />
                     {returnFileSize(selectedImg.size)}
                   </div>
                 )}
@@ -140,26 +162,28 @@ const Create = () => {
                     id="image"
                     accept="image/*"
                     value={inputs.image || ""}
-                    label='Title'
+                    label="Title"
                     onChange={handleChange}
                     required
                   />
                 </div>
                 {selectedImg && (
                   <div className="preview">
-                    <img src={URL.createObjectURL(selectedImg)} alt="selectedImg" />
+                    <img
+                      src={URL.createObjectURL(selectedImg)}
+                      alt="selectedImg"
+                    />
                     {returnFileSize(selectedImg.size)}
                   </div>
                 )}
               </>
-            )
-            }
+            )}
             <TextField
               variant="standard"
               type="text"
               name="location"
               value={inputs.location || ""}
-              label='location'
+              label="location"
               onChange={handleChange}
               required
             />
@@ -168,17 +192,25 @@ const Create = () => {
               type="text"
               name="country"
               value={inputs.country || ""}
-              label='country'
+              label="country"
               onChange={handleChange}
               required
             />
-            <Button style={{ marginTop: "0.5rem" }} variant="outlined" type="submit" className='btn' disabled={disableBtn}>{!id ? (<span> Create!</span>) : (<span>Update!</span>)}</Button>
+            <Button
+              style={{ marginTop: "0.5rem" }}
+              variant="outlined"
+              type="submit"
+              className="btn"
+              disabled={disableBtn}
+            >
+              {!id ? <span> Create!</span> : <span>Update!</span>}
+            </Button>
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const returnFileSize = (number) => {
   if (number < 1e3) {
@@ -188,6 +220,6 @@ const returnFileSize = (number) => {
   } else {
     return `${(number / 1e6).toFixed(1)} MB`;
   }
-}
+};
 
 export default Create;

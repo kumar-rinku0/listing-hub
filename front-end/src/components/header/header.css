@@ -1,7 +1,7 @@
 .header {
   height: 4rem;
   display: flex;
-  background-color: #A1A6B4;
+  background-color: #a1a6b4;
   justify-content: space-around;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.35) 5px 1px 15px;
@@ -17,11 +17,11 @@
 
 .header a {
   text-decoration: none;
-  color:  #000;;
+  color: #000;
 }
 
 .header .logout-btn {
-  color: #2B2D42;
+  color: #2b2d42;
   cursor: pointer;
 }
 
@@ -29,7 +29,7 @@
   box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 15px;
   padding: 0.75rem 1rem;
   border-radius: 1rem;
-  color: #2B2D42;
+  color: #2b2d42;
   border: none;
   cursor: pointer;
 }
@@ -39,7 +39,7 @@
 }
 
 .header .primary {
-  color: #2B2D42;
+  color: #2b2d42;
 }
 
 .header .white {
@@ -48,7 +48,8 @@
 
 .header .layout-outline-btn {
   /* border: 1px solid #ef7b45; */
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   background-color: transparent;
   color: white;
   padding: 0.75rem 1rem;
@@ -61,7 +62,7 @@
   position: fixed;
   /* background-color: #8A8D91; */
   /* background-color: #DADAD9; */
-  background-color: #A1A6B4;
+  background-color: #a1a6b4;
   /* background-color: #7D8491; */
   justify-content: space-around;
   align-items: center;
@@ -73,7 +74,8 @@
 }
 
 .header .logo-shadow {
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
 }
@@ -81,7 +83,8 @@
 .header .navbar .nav-click {
   background-color: white;
   border-radius: 1rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 .header .navbar svg {
@@ -89,14 +92,13 @@
   font-size: 1.5rem;
 }
 
-.header  .mobile {
+.header .mobile {
   display: flex;
 }
 
-.header  .desktop {
+.header .desktop {
   display: none;
 }
-
 
 @media (min-width: 720px) {
   .header .navbar {
@@ -116,10 +118,10 @@
     background-color: transparent;
     border-radius: 1rem;
   }
-  .header  .mobile {
+  .header .mobile {
     display: none;
   }
-  .header  .desktop {
+  .header .desktop {
     display: flex;
   }
 }
