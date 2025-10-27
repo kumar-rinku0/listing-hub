@@ -2,7 +2,6 @@
   min-height: 90vh;
 }
 
-
 .listing .content-map-container {
   display: flex;
   flex-direction: column;
@@ -29,7 +28,8 @@
   height: 30rem;
 }
 
-.listing .content, .listing .map {
+.listing .content,
+.listing .map {
   width: 100%;
 }
 
@@ -40,7 +40,6 @@
   align-items: center;
   flex-direction: column;
 }
-
 
 /* review */
 
@@ -53,6 +52,7 @@
 
 .listing .review {
   padding: 0.5rem;
+  width: 15rem;
   background-color: antiquewhite;
   border-radius: 0.5rem;
 }
@@ -96,9 +96,16 @@
   width: 8rem;
 }
 
-
 .listing .content-description {
   padding: 0 0.5rem;
+}
+
+.listing .messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 15rem;
+  overflow-y: auto;
 }
 
 .listing .post-review-form .div1 {
@@ -109,7 +116,8 @@
   gap: 0.5rem;
 }
 
-.listing .post-review-form .div1 div, #standard-basic {
+.listing .post-review-form .div1 div,
+#standard-basic {
   width: 100%;
 }
 
@@ -119,7 +127,6 @@
   justify-content: start;
   gap: 1rem;
 }
-
 
 @media (min-width: 720px) {
   .listing .content-map-container {
@@ -133,7 +140,8 @@
     height: 30rem;
     width: 100%;
   }
-  .listing .content, .listing .map {
+  .listing .content,
+  .listing .map {
     width: 50%;
   }
   .listing .map {
@@ -148,14 +156,12 @@
 }
 
 @media (min-width: 1200px) {
-
   .listing .content .img {
     height: 35rem;
   }
 }
 
 @media (min-width: 1400px) {
-
   .listing .content .img {
     height: 35rem;
   }
@@ -163,7 +169,6 @@
     height: 45rem;
     width: 100%;
   }
-
 }
 
 @media (min-width: 1600px) {
