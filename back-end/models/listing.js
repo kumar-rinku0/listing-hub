@@ -46,6 +46,10 @@ const listingSchema = new Schema(
         required: true,
       },
     },
+    sold: {
+      type: Boolean,
+      default: false,
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
