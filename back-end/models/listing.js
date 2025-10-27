@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const Review = require("./review.js");
+const Chat = require("./chat.js");
 
 const listingSchema = new Schema(
   {
@@ -55,10 +55,10 @@ const listingSchema = new Schema(
       ref: "User",
       required: true,
     },
-    reviews: [
+    chats: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Review",
+        ref: "Chat",
       },
     ],
   },
@@ -66,8 +66,8 @@ const listingSchema = new Schema(
 );
 
 listingSchema.post("findOneAndDelete", async (listing) => {
-  if (listing.reviews.length) {
-    await Review.deleteMany({ _id: { $in: listing.reviews } });
+  if (listing.chats.length) {
+    await Chat.deleteMany({ _id: { $in: listing.chats } });
   }
 });
 

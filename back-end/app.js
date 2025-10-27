@@ -15,7 +15,7 @@ const connection = require("./utils/init.js");
 // routers
 const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
-const reviewRouter = require("./routes/review.js");
+const chatRouter = require("./routes/chat.js");
 
 // middlewares
 const adminRouter = require("./routes/admin.js");
@@ -86,7 +86,7 @@ app.get("/api", (req, res) => {
 // route middleware
 app.use("/api/user", userRouter);
 app.use("/api/listings", listingRouter);
-app.use("/api/review", onlyLoggedInUser, reviewRouter);
+app.use("/api/chat", onlyLoggedInUser, chatRouter);
 app.use("/api/admin", onlyLoggedInUser, isAdmin, adminRouter);
 
 // err middleware
