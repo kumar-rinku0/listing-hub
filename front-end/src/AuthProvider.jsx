@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import axios from "axios";
 // Create Context
 const AuthContext = createContext();
 
@@ -25,13 +25,15 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     axios.get("/api").then((res) => {
       console.log(res.data.user);
-      signIn(res.data.user)
+      signIn(res.data.user);
       setLoading(false);
-    })
+    });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signOut, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, signIn, signOut, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { getToken } from './google-auth';
-import { useAuth } from '../../AuthProvider';
-import { useMsg } from '../alert/alert-provider';
-import { useNavigate } from 'react-router';
-import React, { useEffect } from 'react'
+import axios from "axios";
+import { getToken } from "./google-auth";
+import { useAuth } from "../../AuthProvider";
+import { useMsg } from "../alert/alert-provider";
+import { useNavigate } from "react-router";
+import React, { useEffect } from "react";
 
-const Auth = ({ }) => {
+const Auth = ({}) => {
   let params = new URLSearchParams(document.location.search);
   let code = params.get("code");
   let error = params.get("error");
@@ -16,15 +16,20 @@ const Auth = ({ }) => {
   useEffect(() => {
     if (code) {
       (async () => {
-        console.log("Auth loading....")
+        console.log("Auth loading....");
         const tokens = await getToken(code);
-        axios.post('/api/user/auth/google/callback', tokens)
+        axios
+          .post("/api/user/auth/google/callback", tokens)
           .then((response) => {
             console.log(response.data);
             const user = response.data.user;
             signIn(user);
-            setAlert([`hi ${user.username} welcome to sentinel.`, "success", true]);
-            navigate('/');
+            setAlert([
+              `hi ${user.username} welcome to sentinel.`,
+              "success",
+              true,
+            ]);
+            navigate("/");
           })
           .catch((error) => {
             console.error(error.response.data);
@@ -35,20 +40,19 @@ const Auth = ({ }) => {
     }
     if (error) {
       setAlert([error, "error", true]);
-      navigate('/login');
+      navigate("/login");
     }
     return () => {
-      console.log("Auth unmounting....")
-    }
-
+      console.log("Auth unmounting....");
+    };
   }, [code, error]);
   return (
-    <div className='auth'>
-      <div className='auth-container'>
+    <div className="auth">
+      <div className="auth-container">
         <p>Authenticating...</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Auth;

@@ -1,16 +1,12 @@
 const { Schema, model } = require("mongoose");
 
-const reviewSchema = new Schema(
+const messageSchema = new Schema(
   {
     username: {
       type: String,
       required: true,
       lowercase: true,
       trim: true,
-    },
-    rating: {
-      type: Number,
-      required: true,
     },
     msg: {
       type: String,
@@ -21,6 +17,10 @@ const reviewSchema = new Schema(
   { timestamps: true }
 );
 
-const Review = model("Review", reviewSchema);
+const chatSchema = new Schema({
+  messages: [messageSchema],
+});
 
-module.exports = Review;
+const Chat = model("Chat", chatSchema);
+
+module.exports = Chat;

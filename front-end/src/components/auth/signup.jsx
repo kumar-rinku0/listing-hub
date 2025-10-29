@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./auth.css"
-import { authorizeUrl } from './google-auth';
-import { useAuth } from '../../AuthProvider';
-import { useNavigate } from 'react-router';
-import { useMsg } from "../alert/alert-provider"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./auth.css";
+import { authorizeUrl } from "./google-auth";
+import { useAuth } from "../../AuthProvider";
+import { useNavigate } from "react-router";
+import { useMsg } from "../alert/alert-provider";
 //const axios = require('axios'); // legacy way
 
 // Make a request for a user with a given ID
@@ -19,19 +19,20 @@ function SignUp() {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({ ...values, [name]: value }))
-  }
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
 
   const handleSubmit = (event) => {
     setDisableBtn(true);
     event.preventDefault();
     console.log(inputs);
-    axios.post('/api/user/signup', inputs)
+    axios
+      .post("/api/user/signup", inputs)
       .then(function (response) {
         const user = response.data.user;
         signIn(user);
         setAlert([`hi ${user.username} welcome to sentinel.`, "success", true]);
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
         // handle error
@@ -39,25 +40,25 @@ function SignUp() {
         setAlert([msg, "error", true]);
         console.log(msg);
         setDisableBtn(false);
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate("/");
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
   return (
-    <div className='register'>
-      <div className='form-container'>
-        <div className='heading'>Register!</div>
-        <form onSubmit={handleSubmit} className='auth-form'>
+    <div className="register">
+      <div className="form-container">
+        <div className="heading">Register!</div>
+        <form onSubmit={handleSubmit} className="auth-form">
           <input
             type="text"
             name="username"
             value={inputs.username || ""}
-            placeholder='username'
+            placeholder="username"
             onChange={handleChange}
             required
           />
@@ -65,7 +66,7 @@ function SignUp() {
             type="email"
             name="email"
             value={inputs.email || ""}
-            placeholder='e-mail'
+            placeholder="e-mail"
             onChange={handleChange}
             required
           />
@@ -73,19 +74,31 @@ function SignUp() {
             type="password"
             name="password"
             value={inputs.password || ""}
-            placeholder='password'
+            placeholder="password"
             onChange={handleChange}
             required
           />
-          <button type="submit" className='btn' disabled={isAuthenticated || disableBtn}>Register!</button>
+          <button
+            type="submit"
+            className="btn"
+            disabled={isAuthenticated || disableBtn}
+          >
+            Register!
+          </button>
         </form>
         <div>or</div>
-        <div className='google-login'>
-          <button className='google-btn' onClick={() => window.location.href = authorizeUrl} disabled={isAuthenticated || disableBtn}>Sign in with Google</button>
+        <div className="google-login">
+          <button
+            className="google-btn"
+            onClick={() => (window.location.href = authorizeUrl)}
+            disabled={isAuthenticated || disableBtn}
+          >
+            Sign in with Google
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default SignUp;

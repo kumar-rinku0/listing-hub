@@ -15,12 +15,12 @@ const reverseGeocode = async (latitude, longitude) => {
 
 const forwardGeocode = async (address) => {
   const res = await fetch(
-    `https://api.mapbox.com/search/geocode/v6/forward?query=${encodeURIComponent(
+    `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(
       address
     )}&access_token=${mapToken}`
   );
   const data = await res.json();
-  return data.features[0].geometry.coordinates || null;
+  return data.features[0].geometry || null;
 };
 
 module.exports = { reverseGeocode, forwardGeocode };

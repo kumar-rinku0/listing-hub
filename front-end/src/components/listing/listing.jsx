@@ -4,31 +4,32 @@ import { useMsg } from "../alert/alert-provider";
 import { useParams, useNavigate } from "react-router";
 import Map from "./map";
 import PostReview from "./post-review";
+import ReplayMessage from "./replay-msg";
 import { useAuth } from "../../AuthProvider";
-import { FaTrash } from "react-icons/fa6";
+// import { FaTrash } from "react-icons/fa6";
 
 const Listing = () => {
   const { setAlert } = useMsg();
-  const { isAuthenticated, user, signIn, signOut } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   let { id } = useParams();
   const [accessToken, setAccessToken] = useState(null);
   const [listing, setListing] = useState([]);
   const navigate = useNavigate();
-  const { title, description, location, image, price, reviews, createdBy } =
+  const { title, description, location, image, price, chats, createdBy } =
     listing;
   const [loading, setLoading] = useState(true); // Add loading state
 
-  const handleDeleteReview = (id, reviewId) => {
-    axios
-      .delete(`/api/review//${id}/${reviewId}`)
-      .then((res) => {
-        const { updatedListing } = res.data;
-        setListing(updatedListing);
-      })
-      .catch((err) => {
-        console.error(err.response.data);
-      });
-  };
+  // const handleDeleteReview = (id, reviewId) => {
+  //   axios
+  //     .delete(`/api/review//${id}/${reviewId}`)
+  //     .then((res) => {
+  //       const { updatedListing } = res.data;
+  //       setListing(updatedListing);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err.response.data);
+  //     });
+  // };
 
   useEffect(() => {
     axios
@@ -77,23 +78,38 @@ const Listing = () => {
         </div>
       </div>
       <div className="reviews-container">
-        {reviews.map(({ username, msg, rating, _id }) => {
+        {chats.map(({ messages, _id }) => {
           return (
             <div className="review" key={_id}>
-              <h5 className="margin-0">
-                {username}&nbsp;
-                {isAuthenticated && user.username === username && (
-                  <span
-                    style={{ color: "red", cursor: "pointer" }}
-                    onClick={() => handleDeleteReview(id, _id)}
+              <div className="messages-container">
+                {messages.map(({ username, msg }, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      textAlign:
+                        isAuthenticated && username === user?.username
+                          ? "right"
+                          : "left",
+                    }}
                   >
-                    {" "}
-                    <FaTrash />{" "}
-                  </span>
-                )}
-              </h5>
-              <div> {rating} </div>
-              <div className="text-sm"> {msg} </div>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        padding: "0.5rem",
+                      }}
+                    >
+                      <strong>
+                        {isAuthenticated && username === user?.username
+                          ? "You"
+                          : username}
+                        :
+                      </strong>
+                      {msg}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {isAuthenticated && <ReplayMessage listingId={id} chatId={_id} />}
             </div>
           );
         })}
