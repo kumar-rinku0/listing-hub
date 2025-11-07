@@ -10,6 +10,7 @@ const {
   handleShowOneListing,
   handleUpdateLising,
   handleShowListings,
+  handleSetListingAsSold,
 } = require("../controllers/listing.js");
 const multer = require("multer");
 const { multerStorage } = require("../utils/cloud-init");
@@ -64,5 +65,11 @@ route
 
 // post route for deleting listing.
 route.post("/:id/:createdBy", onlyLoggedInUser, wrapAsync(handleDeleteListing));
+
+route.put(
+  "/listingId/:listingId",
+  onlyLoggedInUser,
+  wrapAsync(handleSetListingAsSold)
+);
 
 module.exports = route;
