@@ -118,7 +118,7 @@ const handleShowOneListing = async (req, res) => {
       .status(400)
       .send({ type: "error", msg: "listing id is incorrect!!" });
   }
-  const listing = await Listing.findById(id).populate("chats");
+  const listing = await Listing.findById(id).populate("chats", "messages");
   listing.image.url = listing.image.url.replace(
     "/c_fill,g_auto,h_480,w_720/q_auto",
     "/q_auto"
@@ -139,6 +139,26 @@ const handleShowOneListing = async (req, res) => {
   });
 };
 
+const handleSetListingAsSold = async (req, res) => {
+  const { listingId } = req.params;
+  const { sold } = req.query;
+  if (listingId.length != 24) {
+    throw new Error("invalid listing id!");
+  }
+  const listing = await Listing.findByIdAndUpdate(
+    listingId,
+    {
+      sold: sold === "true" ? true : false,
+    },
+    { new: true }
+  );
+  return res.status(200).send({
+    type: "success",
+    msg: "listing status updated!",
+    listing,
+  });
+};
+
 module.exports = {
   handleDeleteListing,
   handleShowUsernameListings,
@@ -146,4 +166,5 @@ module.exports = {
   handleUpdateLising,
   handleShowOneListing,
   handleShowListings,
+  handleSetListingAsSold,
 };

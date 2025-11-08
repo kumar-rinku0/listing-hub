@@ -68,6 +68,36 @@ const Listing = () => {
             <div> &#8377; {price.toLocaleString()}</div>
             <div>{location.value + ", " + location.country}</div>
           </div>
+          <div>
+            {isAuthenticated && createdBy === user?._id && (
+              // set listing as sold button
+              <button
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "red",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+                onClick={async () => {
+                  try {
+                    const res = await axios.put(
+                      `/api/listings/listingId/${id}?sold=${!listing.sold}`
+                    );
+                    const { listing: updatedListing, msg, type } = res.data;
+                    setListing(updatedListing);
+                    setAlert([msg, type, true]);
+                  } catch (err) {
+                    const { msg, type } = err.response.data;
+                    setAlert([msg, type, true]);
+                  }
+                }}
+              >
+                Set Listing as {listing.sold ? "Available" : "Sold"}
+              </button>
+            )}
+          </div>
         </div>
         <div className="map">
           <Map
